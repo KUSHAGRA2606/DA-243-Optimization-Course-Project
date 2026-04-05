@@ -1,0 +1,349 @@
+{
+  "name": "Extreme",
+  "description": "5 UAVs, 15 threats, 6 no-fly zones, rugged terrain (250x250x120)",
+  "environment": {
+    "bounds": {
+      "x": [
+        0,
+        250
+      ],
+      "y": [
+        0,
+        250
+      ],
+      "z": [
+        5,
+        120
+      ]
+    },
+    "terrain_type": "rugged",
+    "threats": [
+      {
+        "center": [
+          40,
+          40,
+          40
+        ],
+        "radius": 20,
+        "strength": 5.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          80,
+          60,
+          50
+        ],
+        "radius": 15,
+        "strength": 6.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          130,
+          40,
+          55
+        ],
+        "radius": 18,
+        "strength": 4.5,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          50,
+          120,
+          45
+        ],
+        "radius": 16,
+        "strength": 7.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          100,
+          100,
+          60
+        ],
+        "radius": 25,
+        "strength": 8.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          180,
+          80,
+          50
+        ],
+        "radius": 14,
+        "strength": 5.5,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          200,
+          150,
+          55
+        ],
+        "radius": 17,
+        "strength": 4.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          60,
+          200,
+          45
+        ],
+        "radius": 13,
+        "strength": 6.5,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          150,
+          180,
+          50
+        ],
+        "radius": 19,
+        "strength": 5.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          220,
+          30,
+          55
+        ],
+        "radius": 12,
+        "strength": 3.5,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          30,
+          180,
+          40
+        ],
+        "radius": 15,
+        "strength": 7.5,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          170,
+          220,
+          50
+        ],
+        "radius": 11,
+        "strength": 4.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          120,
+          150,
+          55
+        ],
+        "radius": 16,
+        "strength": 6.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          200,
+          200,
+          60
+        ],
+        "radius": 14,
+        "strength": 5.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          90,
+          220,
+          45
+        ],
+        "radius": 10,
+        "strength": 8.5,
+        "alpha": 2.0,
+        "height_range": null
+      }
+    ],
+    "no_fly_zones": [
+      {
+        "center": [
+          60,
+          60,
+          60
+        ],
+        "size": [
+          12,
+          120
+        ],
+        "shape": "cylinder"
+      },
+      {
+        "center": [
+          125,
+          125,
+          60
+        ],
+        "size": [
+          15,
+          100
+        ],
+        "shape": "cylinder"
+      },
+      {
+        "center": [
+          180,
+          50,
+          60
+        ],
+        "size": [
+          10,
+          80
+        ],
+        "shape": "cylinder"
+      },
+      {
+        "center": [
+          50,
+          180,
+          60
+        ],
+        "size": [
+          11,
+          90
+        ],
+        "shape": "cylinder"
+      },
+      {
+        "center": [
+          200,
+          180,
+          60
+        ],
+        "size": [
+          9,
+          70
+        ],
+        "shape": "cylinder"
+      },
+      {
+        "center": [
+          100,
+          50,
+          60
+        ],
+        "size": [
+          13,
+          110
+        ],
+        "shape": "cylinder"
+      }
+    ]
+  },
+  "uavs": [
+    {
+      "uav_id": 0,
+      "start": [
+        5,
+        5,
+        35
+      ],
+      "goal": [
+        245,
+        245,
+        35
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 12.0,
+      "fuel_capacity": 2000.0
+    },
+    {
+      "uav_id": 1,
+      "start": [
+        5,
+        245,
+        40
+      ],
+      "goal": [
+        245,
+        5,
+        40
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 12.0,
+      "fuel_capacity": 2000.0
+    },
+    {
+      "uav_id": 2,
+      "start": [
+        125,
+        5,
+        45
+      ],
+      "goal": [
+        125,
+        245,
+        45
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 12.0,
+      "fuel_capacity": 2000.0
+    },
+    {
+      "uav_id": 3,
+      "start": [
+        5,
+        125,
+        40
+      ],
+      "goal": [
+        245,
+        125,
+        40
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 12.0,
+      "fuel_capacity": 2000.0
+    },
+    {
+      "uav_id": 4,
+      "start": [
+        60,
+        5,
+        50
+      ],
+      "goal": [
+        190,
+        245,
+        50
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 12.0,
+      "fuel_capacity": 2000.0
+    }
+  ]
+}

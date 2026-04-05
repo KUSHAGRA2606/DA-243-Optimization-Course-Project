@@ -1,0 +1,270 @@
+{
+  "name": "Complex",
+  "description": "5 UAVs, 10 threats, 4 no-fly zones, mountains (200x200x100)",
+  "environment": {
+    "bounds": {
+      "x": [
+        0,
+        200
+      ],
+      "y": [
+        0,
+        200
+      ],
+      "z": [
+        5,
+        100
+      ]
+    },
+    "terrain_type": "mountains",
+    "threats": [
+      {
+        "center": [
+          40,
+          50,
+          40
+        ],
+        "radius": 18,
+        "strength": 5.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          80,
+          30,
+          45
+        ],
+        "radius": 15,
+        "strength": 4.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          120,
+          80,
+          50
+        ],
+        "radius": 20,
+        "strength": 6.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          60,
+          130,
+          35
+        ],
+        "radius": 12,
+        "strength": 3.5,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          160,
+          60,
+          45
+        ],
+        "radius": 16,
+        "strength": 5.5,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          100,
+          160,
+          40
+        ],
+        "radius": 14,
+        "strength": 4.5,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          30,
+          170,
+          35
+        ],
+        "radius": 10,
+        "strength": 7.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          180,
+          140,
+          50
+        ],
+        "radius": 13,
+        "strength": 4.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          140,
+          180,
+          45
+        ],
+        "radius": 11,
+        "strength": 3.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          100,
+          100,
+          50
+        ],
+        "radius": 22,
+        "strength": 8.0,
+        "alpha": 2.0,
+        "height_range": null
+      }
+    ],
+    "no_fly_zones": [
+      {
+        "center": [
+          50,
+          100,
+          50
+        ],
+        "size": [
+          12,
+          100
+        ],
+        "shape": "cylinder"
+      },
+      {
+        "center": [
+          150,
+          50,
+          50
+        ],
+        "size": [
+          10,
+          80
+        ],
+        "shape": "cylinder"
+      },
+      {
+        "center": [
+          100,
+          30,
+          50
+        ],
+        "size": [
+          9,
+          70
+        ],
+        "shape": "cylinder"
+      },
+      {
+        "center": [
+          130,
+          150,
+          50
+        ],
+        "size": [
+          11,
+          90
+        ],
+        "shape": "cylinder"
+      }
+    ]
+  },
+  "uavs": [
+    {
+      "uav_id": 0,
+      "start": [
+        5,
+        5,
+        30
+      ],
+      "goal": [
+        195,
+        195,
+        30
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 10.0,
+      "fuel_capacity": 1500.0
+    },
+    {
+      "uav_id": 1,
+      "start": [
+        5,
+        195,
+        35
+      ],
+      "goal": [
+        195,
+        5,
+        35
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 10.0,
+      "fuel_capacity": 1500.0
+    },
+    {
+      "uav_id": 2,
+      "start": [
+        100,
+        5,
+        40
+      ],
+      "goal": [
+        100,
+        195,
+        40
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 10.0,
+      "fuel_capacity": 1500.0
+    },
+    {
+      "uav_id": 3,
+      "start": [
+        5,
+        100,
+        35
+      ],
+      "goal": [
+        195,
+        100,
+        35
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 10.0,
+      "fuel_capacity": 1500.0
+    },
+    {
+      "uav_id": 4,
+      "start": [
+        50,
+        5,
+        45
+      ],
+      "goal": [
+        150,
+        195,
+        45
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 10.0,
+      "fuel_capacity": 1500.0
+    }
+  ]
+}

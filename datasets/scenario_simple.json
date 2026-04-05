@@ -1,0 +1,106 @@
+{
+  "name": "Simple",
+  "description": "2 UAVs, 3 threats, 1 no-fly zone, flat terrain (100x100x50)",
+  "environment": {
+    "bounds": {
+      "x": [
+        0,
+        100
+      ],
+      "y": [
+        0,
+        100
+      ],
+      "z": [
+        5,
+        50
+      ]
+    },
+    "terrain_type": "flat",
+    "threats": [
+      {
+        "center": [
+          30,
+          50,
+          25
+        ],
+        "radius": 12,
+        "strength": 4.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          60,
+          30,
+          25
+        ],
+        "radius": 10,
+        "strength": 3.0,
+        "alpha": 2.0,
+        "height_range": null
+      },
+      {
+        "center": [
+          70,
+          70,
+          25
+        ],
+        "radius": 8,
+        "strength": 5.0,
+        "alpha": 2.0,
+        "height_range": null
+      }
+    ],
+    "no_fly_zones": [
+      {
+        "center": [
+          50,
+          50,
+          25
+        ],
+        "size": [
+          8,
+          50
+        ],
+        "shape": "cylinder"
+      }
+    ]
+  },
+  "uavs": [
+    {
+      "uav_id": 0,
+      "start": [
+        5,
+        10,
+        20
+      ],
+      "goal": [
+        95,
+        90,
+        20
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 8.0,
+      "fuel_capacity": 1000.0
+    },
+    {
+      "uav_id": 1,
+      "start": [
+        5,
+        90,
+        25
+      ],
+      "goal": [
+        95,
+        10,
+        25
+      ],
+      "max_turn_angle": 1.047,
+      "max_climb_angle": 0.524,
+      "safe_distance": 8.0,
+      "fuel_capacity": 1000.0
+    }
+  ]
+}
