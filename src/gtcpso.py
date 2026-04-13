@@ -147,7 +147,7 @@ class GTCPSO:
         
         return cart_path
     
-    def _initialize(self):
+    def _initialize(self, warm_start_particles=None):
         """Initialize swarm in cylindrical coordinates."""
         self.particles = []
         self.particles_cart = []
@@ -161,12 +161,22 @@ class GTCPSO:
             particle_cart = []
             particle_vel = []
             
-            for uav in self.uavs:
-                # Generate random Cartesian path first
-                cart_path = utils.generate_random_path(
-                    uav.start, uav.goal, self.num_waypoints,
-                    self.env.bounds, self.rng
-                )
+            for u, uav in enumerate(self.uavs):
+                # Generate random Cartesian path first, or use warm start
+                cart_path = None
+                if warm_start_particles is not None and p < len(warm_start_particles) and u < len(warm_start_particles[p]):
+                    # Check dimensions just in case uavs grew
+                    if len(warm_start_particles[p][u]) == self.num_waypoints + 2:
+                        cart_path = warm_start_particles[p][u].copy()
+                        # Override start and goal naturally
+                        cart_path[0] = uav.start
+                        cart_path[-1] = uav.goal
+                
+                if cart_path is None:
+                    cart_path = utils.generate_random_path(
+                        uav.start, uav.goal, self.num_waypoints,
+                        self.env.bounds, self.rng
+                    )
                 
                 # Convert to cylindrical
                 cyl_path = self._cart_to_cyl_path(cart_path, uav.start, uav.goal)
@@ -360,9 +370,9 @@ class GTCPSO:
                 self.particles_cart[particle_idx][u], uav.start, uav.goal
             )
     
-    def optimize(self, verbose=True):
+    def optimize(self, warm_start_particles=None, verbose=True):
         """Run GTCPSO optimization."""
-        self._initialize()
+        self._initialize(warm_start_particles)
         
         for it in range(self.max_iterations):
             # Standard PSO update
