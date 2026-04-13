@@ -27,9 +27,12 @@ def create_terrain_surface(environment, opacity=0.4):
     )
 
 
-def create_threat_traces(environment):
+def create_threat_traces(environment, threat_times=None):
     """Create cylindrical threat zone visualizations."""
     traces = []
+    
+    if threat_times is None:
+        threat_times = [0.0] * len(environment.threats)
     
     for i, threat in enumerate(environment.threats):
         # Create cylinder mesh for threat zone
@@ -53,7 +56,7 @@ def create_threat_traces(environment):
                         [1, f'rgba(255,{max(0,100-int(threat.strength*20))},0,0.25)']],
             showscale=False,
             name=f'Threat {i+1} (str={threat.strength:.1f})',
-            hovertemplate=f'Threat {i+1}<br>Strength: {threat.strength}<br>Radius: {threat.radius}<extra></extra>'
+            hovertemplate=f'Threat {i+1}<br>Spawned at t={threat_times[i]:.1f}s<br>Strength: {threat.strength}<br>Radius: {threat.radius}<extra></extra>'
         ))
         
         # Threat center marker
@@ -117,7 +120,7 @@ UAV_COLORS = [
 
 
 def create_path_traces(paths, uavs, algorithm_name, bottleneck_info=None,
-                       show_waypoints=True, dash=None):
+                       show_waypoints=True, dash=None, path_times=None):
     """Create path traces for all UAVs."""
     traces = []
     
@@ -128,14 +131,18 @@ def create_path_traces(paths, uavs, algorithm_name, bottleneck_info=None,
         line_style = dict(color=color, width=4)
         if dash:
             line_style['dash'] = dash
+            
+        times_array = path_times[u] if path_times and u < len(path_times) else ['N/A'] * len(path)
         
         traces.append(go.Scatter3d(
             x=path[:, 0], y=path[:, 1], z=path[:, 2],
             mode='lines',
             line=line_style,
+            text=times_array,
             name=f'{algorithm_name} - UAV {uav.uav_id}',
             hovertemplate=(
                 f'{algorithm_name} - UAV {uav.uav_id}<br>'
+                'Sim Time: %{text}s<br>'
                 'X: %{x:.1f}<br>Y: %{y:.1f}<br>Z: %{z:.1f}<extra></extra>'
             )
         ))
@@ -146,10 +153,12 @@ def create_path_traces(paths, uavs, algorithm_name, bottleneck_info=None,
                 x=path[1:-1, 0], y=path[1:-1, 1], z=path[1:-1, 2],
                 mode='markers',
                 marker=dict(size=4, color=color, opacity=0.7),
+                text=times_array[1:-1],
                 name=f'{algorithm_name} - UAV {uav.uav_id} Waypoints',
                 showlegend=False,
                 hovertemplate=(
                     f'Waypoint (UAV {uav.uav_id})<br>'
+                    'Sim Time: %{text}s<br>'
                     'X: %{x:.1f}<br>Y: %{y:.1f}<br>Z: %{z:.1f}<extra></extra>'
                 )
             ))
@@ -198,7 +207,7 @@ def create_path_traces(paths, uavs, algorithm_name, bottleneck_info=None,
     return traces
 
 
-def create_3d_scene(environment, results_list, scenario_name='Scenario'):
+def create_3d_scene(environment, results_list, scenario_name='Scenario', threat_times=None, path_times=None):
     """
     Create a full interactive 3D visualization.
     
@@ -210,7 +219,7 @@ def create_3d_scene(environment, results_list, scenario_name='Scenario'):
     fig.add_trace(create_terrain_surface(environment))
     
     # Add threats
-    for trace in create_threat_traces(environment):
+    for trace in create_threat_traces(environment, threat_times=threat_times):
         fig.add_trace(trace)
     
     # Add no-fly zones
@@ -228,7 +237,8 @@ def create_3d_scene(environment, results_list, scenario_name='Scenario'):
             [type('UAV', (), {'uav_id': u})() for u in range(len(results['best_paths']))],
             results['algorithm'],
             bottleneck_info=bottleneck_info,
-            dash=dash
+            dash=dash,
+            path_times=results.get('path_times')
         ):
             fig.add_trace(trace)
     
