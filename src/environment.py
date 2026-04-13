@@ -28,23 +28,47 @@ class Threat:
         self.height_range = height_range
     
     def cost_at(self, point):
-        """Compute threat cost at a given 3D point."""
-        point = np.array(point, dtype=float)
+        """Legacy point method. Returns 0 as we use segments now."""
+        return 0.0
         
-        # Check height range
+    def segment_cost(self, w1, w2, D=1.0, s=10.0, C=1000.0):
+        """
+        Compute Threat cost for a segment W_j -> W_{j+1} based on Equation (5).
+        Returns Piecewise Cost.
+        """
+        w1_arr = np.array(w1, dtype=float)
+        w2_arr = np.array(w2, dtype=float)
+        
         if self.height_range is not None:
-            if point[2] < self.height_range[0] or point[2] > self.height_range[1]:
-                return 0.0
+             # If strictly completely above or below the threat band
+             if max(w1_arr[2], w2_arr[2]) < self.height_range[0] or min(w1_arr[2], w2_arr[2]) > self.height_range[1]:
+                 return 0.0
+                 
+        # 2D projection
+        a2d = w1_arr[:2]
+        b2d = w2_arr[:2]
+        c2d = self.center[:2]
         
-        dist = np.linalg.norm(point[:2] - self.center[:2])
+        ab = b2d - a2d
+        ap = c2d - a2d
         
-        if dist > self.radius * 3:  # Beyond influence range
+        ab_dot = np.dot(ab, ab)
+        if ab_dot == 0.0:
+            dk = np.linalg.norm(ap)
+        else:
+            t = np.clip(np.dot(ap, ab) / ab_dot, 0.0, 1.0)
+            closest = a2d + t * ab
+            dk = np.linalg.norm(c2d - closest)
+            
+        # Piecewise equation calculation
+        diff = dk - self.radius
+        if diff > s + D:
             return 0.0
-        
-        # Threat cost with exponential decay
-        epsilon = 1.0
-        cost = self.strength / (max(dist, epsilon) ** self.alpha)
-        return cost
+        elif D < diff and diff <= s + D:
+            return self.radius + s - dk
+        else:
+            # diff <= D
+            return C
     
     def is_inside(self, point):
         """Check if point is inside threat zone."""
@@ -198,9 +222,9 @@ class Environment:
         """Add a no-fly zone."""
         self.no_fly_zones.append(NoFlyZone(center, size, shape))
     
-    def threat_cost_at(self, point):
-        """Total threat cost at a point."""
-        return sum(t.cost_at(point) for t in self.threats)
+    def threat_segment_cost(self, w1, w2, D=1.0, s=10.0):
+        """Total threat cost for a segment."""
+        return sum(t.segment_cost(w1, w2, D=D, s=s, C=t.strength) for t in self.threats)
     
     def nfz_penalty_at(self, point):
         """Total no-fly zone penalty at a point."""
