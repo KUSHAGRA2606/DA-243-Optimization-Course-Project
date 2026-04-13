@@ -73,21 +73,16 @@ class CostFunction:
             return total_length
         return total_length / straight_line  # Ratio - 1.0 is optimal
     
-    def threat_exposure_cost(self, waypoints):
+    def threat_exposure_cost(self, waypoints, D=1.0, s=10.0):
         """
-        Cost component: Cumulative threat exposure along path.
-        Samples threat cost at each waypoint and between waypoints.
+        Cost component: Cumulative threat exposure along path segments.
+        Implements Equation (5) exactly algorithmically.
         """
         total_cost = 0.0
         
-        # At each waypoint
-        for wp in waypoints:
-            total_cost += self.env.threat_cost_at(wp)
-        
-        # Between waypoints (midpoint sampling)
+        # Loop over segments
         for i in range(len(waypoints) - 1):
-            mid = (waypoints[i] + waypoints[i + 1]) / 2
-            total_cost += self.env.threat_cost_at(mid) * 0.5
+            total_cost += self.env.threat_segment_cost(waypoints[i], waypoints[i+1], D=D, s=s)
         
         return total_cost
     
@@ -274,8 +269,11 @@ class CostFunction:
         for i in range(n):
             wp = waypoints[i]
             
-            # Threat at this waypoint
-            costs[i] += self.w_threat * self.env.threat_cost_at(wp)
+            # Threat cost contribution (half of prior segment, half of next segment)
+            if i > 0:
+                costs[i] += 0.5 * self.w_threat * self.env.threat_segment_cost(waypoints[i-1], wp)
+            if i < n - 1:
+                costs[i] += 0.5 * self.w_threat * self.env.threat_segment_cost(wp, waypoints[i+1])
             
             # Segment length contribution (before and after)
             if i > 0:
