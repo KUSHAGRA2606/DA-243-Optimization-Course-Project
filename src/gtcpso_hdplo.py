@@ -428,9 +428,9 @@ class GTCPSO_HDPLO(GTCPSO):
         
         return improved
     
-    def optimize(self, verbose=True):
+    def optimize(self, warm_start_particles=None, verbose=True):
         """Run GTCPSO + HDPLO optimization."""
-        self._initialize()
+        self._initialize(warm_start_particles)
         
         for it in range(self.max_iterations):
             # Compute direction prediction
