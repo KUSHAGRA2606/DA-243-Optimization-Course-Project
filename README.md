@@ -8,7 +8,7 @@ This repository compares and integrates:
 1. **Standard PSO** — Baseline in Cartesian coordinates.
 2. **GTCPSO** — Cylindrical-coordinate PSO with Gene Targeting (IEEE Reference).
 3. **GTCPSO+HDPLO** — Enhanced with Adaptive Crossover, CMA-ES Refinement, and Search Guidance.
-4. **D-GTCPSO (Dynamic)** — Asynchronous online re-planning using Warm-Started RHC.
+4. **D-GTCPSO+HDPLO (Dynamic)** — Asynchronous online re-planning using Warm-Started RHC.
 
 ---
 
@@ -51,7 +51,7 @@ Adds four major improvements:
 - **Direction-Guided Search**: Incorporates historical global-best momentum into velocity.
 - **Diversity Control**: Prevents population collapse via selective re-initialization.
 
-### 4. D-GTCPSO (Dynamic Receding Horizon Control)
+### 4. D-GTCPSO+HDPLO (Dynamic Receding Horizon Control)
 Transforms static optimization into a continuous control loop:
 - **Warm-Start Mechanism**: Every re-optimization cycle ($dt$) initializes the swarm with the previous best path (time-shifted), enabling near-instant convergence for dynamic events.
 - **Asynchronous Handling**: Real-time integration of `UAV_ARRIVE` and `THREAT_ARRIVE` events mid-mission.
