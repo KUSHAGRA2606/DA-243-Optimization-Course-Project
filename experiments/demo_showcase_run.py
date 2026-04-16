@@ -27,7 +27,6 @@ params = {
     'gt_probability': 0.2
 }
 
-# Ensure very high safety margins and strong turning penalty to favor smooth paths
 popup_threat_1 = Threat(center=(20, 40, 0), radius=10, strength=10000.0)
 popup_threat_2 = Threat(center=(80, 40, 0), radius=10, strength=10000.0)
 
@@ -35,8 +34,7 @@ manager = RHCManager(env, CostFunction, GTCPSO_HDPLO, params, dt=2.0)
 
 manager.add_event(0.0, 'UAV_ARRIVE', {'uav': u1})
 manager.add_event(0.0, 'UAV_ARRIVE', {'uav': u2})
-
-# Drop popup threats perfectly in front of them at early times to force sudden avoidance sweeps
+  
 manager.add_event(2.0, 'THREAT_ARRIVE', {'threat': popup_threat_1})
 manager.add_event(4.0, 'THREAT_ARRIVE', {'threat': popup_threat_2})
 
