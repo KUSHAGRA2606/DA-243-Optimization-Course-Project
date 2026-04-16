@@ -1,0 +1,26 @@
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments / local Python installs
+.venv/
+venv/
+.conda/
+
+# Tooling and editor state
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Generated visualization artifacts
+results/**/*.html
+demo_*.html
+scenario_*.html
+large_scenario_*.html
+deviation_*.html
