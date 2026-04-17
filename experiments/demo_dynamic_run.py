@@ -1,7 +1,7 @@
 import sys
 import os
 import numpy as np
-
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),'..')))
 from src.environment import Environment, Threat
 from src.uav import UAV
 from src.cost_function import CostFunction
