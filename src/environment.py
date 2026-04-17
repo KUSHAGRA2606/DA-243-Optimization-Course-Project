@@ -65,7 +65,8 @@ class Threat:
         if diff > s + D:
             return 0.0
         elif D < diff and diff <= s + D:
-            return self.radius + s - dk
+            # Linear interpolation from C to 0, ensuring non-negative
+            return max(0, C * (s + D - diff) / s)
         else:
             # diff <= D
             return C
