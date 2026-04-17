@@ -184,6 +184,14 @@ class GTCPSO_HDPLO(GTCPSO):
                     self.particles[child_idx][u],
                     self.uavs[u].start, self.uavs[u].goal
                 )
+                # Reset velocity of the new child to avoid erratic jumps 
+                self.velocities[child_idx][u] = np.zeros_like(self.velocities[child_idx][u])
+            
+            # Reset personal best memory for the newly created child
+            cost, _, _ = self.cost_fn.evaluate_cooperative(self.particles_cart[child_idx])
+            self.pbest_costs[child_idx] = cost
+            self.pbest_positions[child_idx] = [p.copy() for p in self.particles[child_idx]]
+            self.pbest_positions_cart[child_idx] = [p.copy() for p in self.particles_cart[child_idx]]
     
     def _cma_es_local_refinement(self, uav_index, bottleneck_idx):
         """
@@ -348,7 +356,11 @@ class GTCPSO_HDPLO(GTCPSO):
             direction_term = np.zeros_like(self.particles[particle_idx][u])
             if direction_pred is not None:
                 r3 = self.rng.random(self.particles[particle_idx][u].shape)
-                direction_term = self.direction_weight * r3 * direction_pred[u]
+                # Normalize direction to avoid overwhelming standard PSO dynamics
+                norm = np.linalg.norm(direction_pred[u])
+                if norm > 1e-6:
+                    normalized_dir = direction_pred[u] / norm
+                    direction_term = self.direction_weight * r3 * normalized_dir * 2.0
             
             self.velocities[particle_idx][u] = (
                 w * self.velocities[particle_idx][u] + 
@@ -407,6 +419,12 @@ class GTCPSO_HDPLO(GTCPSO):
                 vel[1:-1, 1] = self.rng.uniform(-0.3, 0.3, self.num_waypoints)
                 vel[1:-1, 2] = self.rng.uniform(-3, 3, self.num_waypoints)
                 self.velocities[p_idx][u] = vel
+            
+            # Reset personal best after diversity replacement
+            cost, _, _ = self.cost_fn.evaluate_cooperative(self.particles_cart[p_idx])
+            self.pbest_costs[p_idx] = cost
+            self.pbest_positions[p_idx] = [p.copy() for p in self.particles[p_idx]]
+            self.pbest_positions_cart[p_idx] = [p.copy() for p in self.particles_cart[p_idx]]
     
     def _gene_targeting_with_cma(self, uav_index, iteration):
         """
@@ -425,6 +443,11 @@ class GTCPSO_HDPLO(GTCPSO):
         
         # Use CMA-ES for local refinement around bottleneck
         improved = self._cma_es_local_refinement(uav_index, bottleneck_idx)
+        
+        # Fallback to standard GT if CMA-ES could not find a better solution
+        if not improved:
+            self._gene_targeting(uav_index, iteration)
+            self.bottleneck_history[-1]['method'] = 'CMA-ES + Fallback GT'
         
         return improved
     

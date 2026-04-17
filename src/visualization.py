@@ -124,11 +124,17 @@ def create_path_traces(paths, uavs, algorithm_name, bottleneck_info=None,
     """Create path traces for all UAVs."""
     traces = []
     
+    DARK_UAV_COLORS = [
+        '#003366', '#993300', '#004d00', '#800000', '#4d0066',
+        '#4d2600', '#800066', '#333333', '#808000', '#006666'
+    ]
+    
     for u, (path, uav) in enumerate(zip(paths, uavs)):
-        color = UAV_COLORS[u % len(UAV_COLORS)]
+        is_dynamic = "Dynamic" in algorithm_name
+        color = DARK_UAV_COLORS[u % len(DARK_UAV_COLORS)] if is_dynamic else UAV_COLORS[u % len(UAV_COLORS)]
         
         # Path line
-        line_style = dict(color=color, width=4)
+        line_style = dict(color=color, width=6 if is_dynamic else 4)
         if dash:
             line_style['dash'] = dash
             
@@ -152,7 +158,7 @@ def create_path_traces(paths, uavs, algorithm_name, bottleneck_info=None,
             traces.append(go.Scatter3d(
                 x=path[1:-1, 0], y=path[1:-1, 1], z=path[1:-1, 2],
                 mode='markers',
-                marker=dict(size=4, color=color, opacity=0.7),
+                marker=dict(size=6 if is_dynamic else 4, color=color, opacity=0.9 if is_dynamic else 0.7),
                 text=times_array[1:-1],
                 name=f'{algorithm_name} - UAV {uav.uav_id} Waypoints',
                 showlegend=False,

@@ -35,7 +35,8 @@ class RHCManager:
                 uav = ev['data']['uav']
                 self.active_uavs.append(uav)
                 self.executed_paths[uav.uav_id] = [uav.start.copy()]
-                new_uav_arrived = True
+                if self.current_time > 0.0:
+                    print(f"[{self.current_time:04.1f}s] Event: {uav.uav_id} arrived at {uav.start}")
             elif ev['type'] == 'THREAT_ARRIVE':
                 threat = ev['data']['threat']
                 self.env.add_threat(threat.center, threat.radius, threat.strength)
